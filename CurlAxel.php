@@ -17,7 +17,7 @@ class CurlAxel {
 	private $partcount = 5;
 	private $log = false;
 	private $buffersize = 67108864;
-	public $version = "0.1b beta 27/08/11";
+	public $version = "0.1 29/08/11";
 	
 	function __construct() {
 		$this->megaconnection = curl_multi_init();
