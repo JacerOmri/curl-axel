@@ -1,0 +1,24 @@
+hey, i thought many people will like that.
+I just wanted to help, so this PHP class may help some people who need it.
+it's not a script, neither a software, it's a class used by developers to be integrated in their scripts.
+How about cookies, proxies and other curl option??
+well, everybody know curl_setopt_array(), you need to create an array, put all your configs there and pass it to the class using
+setCurlOpts(). But keep in mind, these settings will be overwritten:
+ + CURLOPT_RETURNTRANSFER
+ + CURLOPT_FOLLOWLOCATION
+ + CURLOPT_BINARYTRANSFER
+ + CURLOPT_FRESH_CONNECT
+ + CURLOPT_CONNECTTIMEOUT
+ + CURLOPT_FILE
+ + CURLOPT_RANGE
+
+Included Functins
+this is a list of function made in the class
+ + activeLog() - true or false - to desactivate activate log - log file is created in tempdir
+ + setUrl() - sets the url to download
+ + setParts() - number of connection (parts) to be created
+ + setTempDir() - must be absolute parth, if not found, it will be created
+ + setDownloadDir() - must be absolute parth, if not found, it will be created
+ + setCurlOpts() - this is the function allowing you to set your cookies, proxies and other option as an array of curl options.
+ + getFileSize() - you may use it to get the file size of a url
+ + download() - the most important function  lol
