@@ -71,15 +71,14 @@ class CurlAxel {
 		else return false;
 	}
 
-	//only unix based systems
-	private function setBufferSize($buffersie){
+	public function setBufferSize($buffersie){
 		$this->buffersize = $buffersie;
 	}
 	
 	private function parseFile() {
 		$filename = basename($this->url);
 		$size = $this->getFileSize($this->url);
-		$splits = range(0, $size, ceil($size/5));
+		$splits = range(0, $size, ceil($size/$this->partcount));
 		$this->filename = $filename;
 		$this->size = $size;
 		$this->splits = $splits;
@@ -130,7 +129,7 @@ class CurlAxel {
 		for ($i = 0; $i < sizeof($this->splits); $i++) {
 			$partpath = $this->tempdir . $this->partnames[$i];
 			fseek($bh[$i], 0, SEEK_SET);
-			while (!feof($handle)) {
+			while (!feof($bh[$i])) {
 				$contents = fread($bh[$i], $this->buffersize);
 				fwrite($final, $contents);
 			}
