@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<script src="ui/jquery.js"></script>
+		<script src="ui/jquery-ui-1.8.16.custom.min.js"></script>
+		<script src="ui/jquery.progressbar.min.js"></script>
+		<link type="text/css" href="ui/css/dot-luv/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+		<link type="text/css" href="ui/css/main.css" rel="stylesheet" />
+		<style>
+			#feedback { font-size: 1.0em; }
+			#selectable .ui-selecting { background: #FECA40; }
+			#selectable .ui-selected { background: #F39814; color: white; }
+			#selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+			#selectable li { border-radius: 5px; margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+		</style>
+		<script>
+		$(function() {
+			$( "#selectable" ).selectable({
+				stop: function() {
+					var result = $( "#select-result" ).empty();
+					$( ".ui-selected", this ).each(function() {
+						var index = $( "#selectable li" ).index( this );
+						result.append( " #" + ( index + 1 ) );
+					});
+				},
+				multiple : false
+			});
+			$( "#tabs" ).tabs();
+			$( "#accordion" ).accordion();
+		});
+		</script>
+	</head>
+	<body>
+   <div id="wrapper">
+         <div id="header"><br />
+			 	<div align="center"><img src="http://i28.lulzimg.com/e5b0e69371.png" /></div>
+		 </div>
+         <div id="navigation">
+			This is the Navigation		 
+		 </div>
+		 <div id="faux">
+		       <div id="leftcolumn">
+					<div id="tabs">
+						<ul>
+							<li><a href="#tabs-1">List</a></li>
+							<li><a href="#tabs-2">Proin dolor</a></li>
+							<li><a href="#tabs-3">Aenean lacinia</a></li>
+						</ul>
+						<div id="tabs-1">
+							<p>hi!</p>
+							<p id="feedback">
+								<span>You've selected:</span> <span id="select-result">none</span>.
+							</p>
+							<div style="background: white;border-radius: 5px;">
+								<span style="font-size:1px;"><br /></span>
+								<ol id="selectable" style="width:100%;paddin:150px 150px 15px 15px;">
+									<li class="ui-widget-content">Item 1 <span style="text-aligh:right;">right</span></li>
+									<li class="ui-widget-content">Item 2</li>
+									<li class="ui-widget-content">Item 3</li>
+									<li class="ui-widget-content">Item 4</li>
+									<li class="ui-widget-content">Item 5</li>
+									<li class="ui-widget-content">Item 6</li>
+								</ol>
+								<span style="font-size:1px;"><br /></span>
+							</div>
+						</div>
+						<div id="tabs-2">
+							<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+						</div>
+						<div id="tabs-3">
+							<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+							<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+						</div>
+					</div>
+				<div class="clear"></div>
+				</div>
+				<div id="rightcolumn">
+				<div class="clear"></div>
+				<div id="accordion">
+	<h3><a href="#">Section 1</a></h3>
+	<div>
+		<p>
+		Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+		ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+		amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+		odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+		</p>
+	</div>
+	<h3><a href="#">Section 2</a></h3>
+	<div>
+		<p>
+		Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+		purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+		velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+		suscipit faucibus urna.
+		</p>
+	</div>
+	<h3><a href="#">Section 3</a></h3>
+	<div>
+		<p>
+		Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+		Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+		ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+		lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+		</p>
+		<ul>
+			<li>List item one</li>
+			<li>List item two</li>
+			<li>List item three</li>
+		</ul>
+	</div>
+	<h3><a href="#">Section 4</a></h3>
+	<div>
+		<p>
+		Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+		et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+		faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+		mauris vel est.
+		</p>
+		<p>
+		Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+		Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+		inceptos himenaeos.
+		</p>
+	</div>
+</div>
+				</div>
+         </div>	   
+         <div id="footer">
+               This is the Footer		
+         </div>
+   </div>
+</body>
+</html>

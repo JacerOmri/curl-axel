@@ -1,0 +1,70 @@
+* { padding: 0; margin: 0; }
+
+body {
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 0.7em;
+ background-image: url("../../images/bg.png");
+ background-repeat: repeat-x-y;
+}
+#wrapper { 
+ margin: 0 auto;
+ width: 922px;
+}
+#faux {
+ background: url(images/faux-2-2-col.gif);
+ margin-bottom: 5px;
+ overflow: auto; /* Paul O Brien Fix for IE www.pmob.co.uk */
+ width: 100%
+}
+#header {
+ color: #333;
+ width: 902px;
+ padding: 10px;
+ height: 100px;
+ margin: 10px 0px 5px 0px;
+ /*background: #D1DBDB;*/
+ background-image: url("../../images/headbg.png");
+ background-repeat: repeat-x;
+ background-size: auto;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+}
+#navigation {
+ color: #333;
+ padding: 10px;
+ margin: 0px 0px 5px 0px;
+ color: white;
+ opacity: 0.3;
+ background: black;
+}
+#rightcolumn { 
+ display: inline;
+ color: #333;
+ margin: 10px;
+ padding: 0px;
+ width: 195px;
+ float: right;
+}
+#leftcolumn { 
+ float: left;
+ color: #333;
+ margin: 10px;
+ padding: 0px;
+ width: 683px;
+ display: inline;
+ position: relative;
+}
+#footer { 
+ width: 902px;
+ clear: both;
+ color: white;
+ margin: 0px 0px 10px 0px;
+ padding: 10px;
+ opacity: 0.8;
+ background-image: url("../../images/footbg.png");
+ background-repeat: repeat-x;
+ background-size: auto;
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+}
+.clear { clear: both; background: none; }
