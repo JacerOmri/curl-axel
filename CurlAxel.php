@@ -105,7 +105,7 @@ class CurlAxel {
 	/*
 	 * current CurlAxel version
 	 */
-	public $version = "1.0 beta 03/11/11";
+	public $version = "1.0 beta 13/11/11";
 	
 	/*
 	 * good old construct medhod ;)
@@ -443,7 +443,7 @@ class CurlAxel {
 	 * download file using a single connection
 	 */
 	public function slow_download() {
-		parseFile(false);
+		$this->parseFile(false);
 		
 		/* init log if activated */
 		if($this->log) $log = fopen($this->tempdir . 'log.txt', 'a+');
