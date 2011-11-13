@@ -115,6 +115,19 @@ class CurlAxel {
 	}
 	
 	/*
+	 * check and create folders if needed
+	 */
+	private function init() {
+		/* create temp dir */
+		$this->tempdir = getcwd() . $this->tempdir;
+		if(!is_dir($this->tempdir)) mkdir($this->tempdir);
+		
+		/* create download dir */
+		$this->downdir = getcwd() . $this->downdir;
+		if(!is_dir($this->downdir)) mkdir($this->downdir);
+	}
+
+	/*
 	 * activate/desactivate log
 	 */
 	public function activeLog($is) {
@@ -287,6 +300,9 @@ class CurlAxel {
 	 * download file using multithreaded connections
 	 */
 	public function fast_download() {
+		/* init CurlAxel folders */
+		$this->init();	
+
 		$this->parseFile();
 		
 		/* init log if activated */
@@ -443,6 +459,9 @@ class CurlAxel {
 	 * download file using a single connection
 	 */
 	public function slow_download() {
+		/* init CurlAxel folders */
+		$this->init();	
+
 		$this->parseFile(false);
 		
 		/* init log if activated */
@@ -482,9 +501,8 @@ class CurlAxel {
 			 */
 			$progress = create_function('$download_size, $downloaded, $upload_size, $uploaded','static $sprog = 0;
 			@$prog = ceil($downloaded*100/$download_size);
-			if(!isset($time)) $time = 0;
+			if(!isset($time)) static $time = 0;
 			if (($prog > $sprog) and ((time() >= $time+1) or ($time == 0) or ($downloaded ==  $download_size))){
-			if ($prog > $sprog){
 				$sprog = $prog;
 				echo \'<script>$("#pb1").progressBar(\'. $sprog. \');</script>\';
 				$time = time();
@@ -549,14 +567,6 @@ class CurlAxel {
 	 * determines which type of download to use
 	 */
 	public function download() {
-		/* create temp dir */
-		$this->tempdir = getcwd() . $this->tempdir;
-		if(!is_dir($this->tempdir)) mkdir($this->tempdir);
-		
-		/* create download dir */
-		$this->downdir = getcwd() . $this->downdir;
-		if(!is_dir($this->downdir)) mkdir($this->downdir);
-		
 		/* check if curl multi is applicable and determine filesize */
 		$isMT = $this->isMT($this->url);
 		$size = $this->getFileSize($this->url);
