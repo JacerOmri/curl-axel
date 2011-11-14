@@ -249,9 +249,9 @@ class CurlAxel {
 	 */
 	public function isMT($url) {
 		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_setopt($ch, CURLOPT_NOBODY, false); // Range in HEAD request is ignored in many servers
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -274,7 +274,7 @@ class CurlAxel {
 		$pattern = "/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/i";
 		
 		if (preg_match($pattern, $url)) {
-			$this->url = strtolower($url);
+			$this->url = $url;
 			return true;
 		}
 		else return false;
@@ -284,7 +284,7 @@ class CurlAxel {
 	 * extract needed file infos
 	 */
 	private function parseFile($issplit = true) {
-		$filename = basename($this->url);
+		$filename = basename(urldecode($this->url));
 		$size = $this->getFileSize($this->url);
 		$this->filename = $filename;
 		$this->size = $size;
@@ -309,7 +309,7 @@ class CurlAxel {
 		if($this->log) $log = fopen($this->tempdir . 'log.txt', 'a+');
 		
 		/* loop for creating curl handles */
-		for ($i = 0; $i < sizeof($this->splits)-1; $i++) {
+		for ($i = 0; $i <= sizeof($this->splits)-1; $i++) {
 			
 			/* init curl*/
 			$ch[$i] = curl_init();
@@ -435,7 +435,7 @@ class CurlAxel {
 		/* 
 		 * merge splits into final file
 		 */
-		for ($i = 0; $i < sizeof($this->splits)-1; $i++) {
+		for ($i = 0; $i <= sizeof($this->splits)-1; $i++) {
 			$partpath = $this->tempdir . $this->partnames[$i];
 			
 			/* !important : reset file handle index */
