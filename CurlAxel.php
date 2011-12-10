@@ -105,7 +105,7 @@ class CurlAxel {
 	/*
 	 * current CurlAxel version
 	 */
-	public $version = "1.0 beta 03/11/11";
+	public $version = "1.0 beta 13/11/11";
 	
 	/*
 	 * good old construct medhod ;)
@@ -114,6 +114,19 @@ class CurlAxel {
 
 	}
 	
+	/*
+	 * check and create folders if needed
+	 */
+	private function init() {
+		/* create temp dir */
+		$this->tempdir = getcwd() . $this->tempdir;
+		if(!is_dir($this->tempdir)) mkdir($this->tempdir);
+		
+		/* create download dir */
+		$this->downdir = getcwd() . $this->downdir;
+		if(!is_dir($this->downdir)) mkdir($this->downdir);
+	}
+
 	/*
 	 * activate/desactivate log
 	 */
@@ -236,9 +249,9 @@ class CurlAxel {
 	 */
 	public function isMT($url) {
 		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_setopt($ch, CURLOPT_NOBODY, false); // Range in HEAD request is ignored in many servers
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -261,7 +274,7 @@ class CurlAxel {
 		$pattern = "/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/i";
 		
 		if (preg_match($pattern, $url)) {
-			$this->url = strtolower($url);
+			$this->url = $url;
 			return true;
 		}
 		else return false;
@@ -271,7 +284,7 @@ class CurlAxel {
 	 * extract needed file infos
 	 */
 	private function parseFile($issplit = true) {
-		$filename = basename($this->url);
+		$filename = basename(urldecode($this->url));
 		$size = $this->getFileSize($this->url);
 		$this->filename = $filename;
 		$this->size = $size;
@@ -287,13 +300,16 @@ class CurlAxel {
 	 * download file using multithreaded connections
 	 */
 	public function fast_download() {
+		/* init CurlAxel folders */
+		$this->init();	
+
 		$this->parseFile();
 		
 		/* init log if activated */
 		if($this->log) $log = fopen($this->tempdir . 'log.txt', 'a+');
 		
 		/* loop for creating curl handles */
-		for ($i = 0; $i < sizeof($this->splits)-1; $i++) {
+		for ($i = 0; $i <= sizeof($this->splits)-1; $i++) {
 			
 			/* init curl*/
 			$ch[$i] = curl_init();
@@ -419,7 +435,7 @@ class CurlAxel {
 		/* 
 		 * merge splits into final file
 		 */
-		for ($i = 0; $i < sizeof($this->splits)-1; $i++) {
+		for ($i = 0; $i <= sizeof($this->splits)-1; $i++) {
 			$partpath = $this->tempdir . $this->partnames[$i];
 			
 			/* !important : reset file handle index */
@@ -443,7 +459,10 @@ class CurlAxel {
 	 * download file using a single connection
 	 */
 	public function slow_download() {
-		parseFile(false);
+		/* init CurlAxel folders */
+		$this->init();	
+
+		$this->parseFile(false);
 		
 		/* init log if activated */
 		if($this->log) $log = fopen($this->tempdir . 'log.txt', 'a+');
@@ -482,9 +501,8 @@ class CurlAxel {
 			 */
 			$progress = create_function('$download_size, $downloaded, $upload_size, $uploaded','static $sprog = 0;
 			@$prog = ceil($downloaded*100/$download_size);
-			if(!isset($time)) $time = 0;
+			if(!isset($time)) static $time = 0;
 			if (($prog > $sprog) and ((time() >= $time+1) or ($time == 0) or ($downloaded ==  $download_size))){
-			if ($prog > $sprog){
 				$sprog = $prog;
 				echo \'<script>$("#pb1").progressBar(\'. $sprog. \');</script>\';
 				$time = time();
@@ -549,14 +567,6 @@ class CurlAxel {
 	 * determines which type of download to use
 	 */
 	public function download() {
-		/* create temp dir */
-		$this->tempdir = getcwd() . $this->tempdir;
-		if(!is_dir($this->tempdir)) mkdir($this->tempdir);
-		
-		/* create download dir */
-		$this->downdir = getcwd() . $this->downdir;
-		if(!is_dir($this->downdir)) mkdir($this->downdir);
-		
 		/* check if curl multi is applicable and determine filesize */
 		$isMT = $this->isMT($this->url);
 		$size = $this->getFileSize($this->url);
