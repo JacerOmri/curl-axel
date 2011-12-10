@@ -15,7 +15,7 @@ $fileurl = "http://93.190.137.8/1000mb.bin";
 echo "downloading $fileurl <br>";
 $curlaxel = new CurlAxel;
 $curlaxel->setUrl($fileurl);  
-$curlaxel->setProgressCallback(); 
+$curlaxel->setProgressCallback(true); 
 $curlaxel->setBufferSize(32*1024*1024);
 $curlaxel->activeLog(true); 
 $curlaxel->download();
