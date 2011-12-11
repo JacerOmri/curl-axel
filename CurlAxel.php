@@ -14,6 +14,12 @@ class CurlAxel {
 	 * string
 	 */
 	private $url = "";
+
+	/*
+	 * custom filename, set by setFilename method (or automatically)
+	 * string
+	 */
+	private $filename = "";
 	
 	/*
 	 * user curl option array to be passed to curl
@@ -105,7 +111,7 @@ class CurlAxel {
 	/*
 	 * current CurlAxel version
 	 */
-	public $version = "1.0 beta 13/11/11";
+	public $version = "1.0 beta 11/12/11";
 	
 	/*
 	 * good old construct medhod ;)
@@ -266,7 +272,7 @@ class CurlAxel {
 	
 	/*
 	 * set url to download
-	 * (bool) true id url is accepted
+	 * (bool) true if url is accepted
 	 * (bool) false on fail
 	 */
 	public function setUrl($url) {
@@ -281,12 +287,30 @@ class CurlAxel {
 	}
 	
 	/*
+	 * set a filename
+	 * (bool) true on success
+	 * (bool) false if failed
+	 */
+	public function setFilename($filename) {
+		if (is_string($filename) {
+			/* remove forbidden characters from filename */
+			$forbidden = '<>:"/\\|?*\'@#+~{}[]^';
+			str_replace($forbidden, '', $filename);
+			$this->filename = $filename;
+			return true;
+		}
+		return false;
+	}
+	
+	/*
 	 * extract needed file infos
 	 */
 	private function parseFile($issplit = true) {
 		$filename = basename(urldecode($this->url));
+		if ($this->filename == '') {
+			$this->filename = $filename;
+		}
 		$size = $this->getFileSize($this->url);
-		$this->filename = $filename;
 		$this->size = $size;
 		
 		/* make splits */
