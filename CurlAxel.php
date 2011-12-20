@@ -111,7 +111,7 @@ class CurlAxel {
 	/*
 	 * current CurlAxel version
 	 */
-	public $version = "1.0 beta 11/12/11";
+	public $version = "1.0 beta 20/12/11";
 	
 	/*
 	 * good old construct medhod ;)
@@ -315,8 +315,7 @@ class CurlAxel {
 		
 		/* make splits */
 		if($issplit) {
-			$splits = range(0, $size, ceil($size/$this->partcount));
-			$this->splits = $splits;
+			$this->splits = range(0, $size, ceil($size/$this->partcount));
 		}
 	}
 
@@ -331,7 +330,6 @@ class CurlAxel {
 		
 		/* init log if activated */
 		if($this->log) $log = fopen($this->tempdir . 'log.txt', 'a+');
-		
 		/* loop for creating curl handles */
 		for ($i = 0; $i <= sizeof($this->splits)-1; $i++) {
 			
@@ -431,6 +429,7 @@ class CurlAxel {
 			$x = ($i == 0 ? 0 : $this->splits[$i]+1);
 			$y = ($i == sizeof($this->splits)-1 ? $this->size : $this->splits[$i+1]);
 			$range = $x.'-'.$y;
+			if($i == sizeof($this->splits)-1) $range = $x.'-';
 			curl_setopt($ch[$i], CURLOPT_RANGE, $range);
 			
 			/* register the current curl handle to be executed */
@@ -594,7 +593,7 @@ class CurlAxel {
 		/* check if curl multi is applicable and determine filesize */
 		$isMT = $this->isMT($this->url);
 		$size = $this->getFileSize($this->url);
-		
+
 		if($isMT and $size > 5*1024*1024 /* 5Mb */) {
 			/* initiate curl_multi handle */
 			$this->megaconnection = curl_multi_init();
