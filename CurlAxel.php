@@ -427,9 +427,12 @@ class CurlAxel {
 			
 			/* set part range */
 			$x = ($i == 0 ? 0 : $this->splits[$i]+1);
-			$y = ($i == sizeof($this->splits)-1 ? $this->size : $this->splits[$i+1]);
-			$range = $x.'-'.$y;
-			if($i == sizeof($this->splits)-1) $range = $x.'-';
+			if($i == sizeof($this->splits)-1) {
+				$range = $x.'-';
+			} else {
+				$y = $this->splits[$i+1];
+				$range = $x.'-'.$y;
+			}
 			curl_setopt($ch[$i], CURLOPT_RANGE, $range);
 			
 			/* register the current curl handle to be executed */
