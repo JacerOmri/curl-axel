@@ -295,7 +295,7 @@ class CurlAxel {
 		if (is_string($filename)) {
 			/* remove forbidden characters from filename */
 			$forbidden = '<>:"/\\|?*\'@#+~{}[]^';
-			str_replace($forbidden, '', $filename);
+			str_replace(str_split($forbidden), '', $filename);
 			$this->filename = $filename;
 			return true;
 		}
