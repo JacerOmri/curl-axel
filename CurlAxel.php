@@ -136,49 +136,49 @@ class CurlAxel {
 	/*
 	 * activate/desactivate log
 	 */
-	public function activeLog($is) {
+	function activeLog($is) {
 		$this->log = (bool)$is;
 	}
 	
 	/*
 	 * set number of splits (connections)
 	 */
-	public function setParts($num) {
+	function setParts($num) {
 		$this->partcount = (int)$num;
 	}
 	
 	/*
 	 * set temporary directory
 	 */
-	public function setTempDir($dir) {
+	function setTempDir($dir) {
 		$this->tempdir = $dir;
 	}
 	
 	/*
 	 * set download directory
 	 */
-	public function setDownloadDir($dir) {
+	function setDownloadDir($dir) {
 		$this->downdir = $dir;
 	}
 	
 	/*
 	 * set cookies as a string (if is set, cookiesfile is ignored)
 	 */
-	public function setCookies($cookies) {
+	function setCookies($cookies) {
 		$this->cookies = (string)$cookies;
 	}
 	
 	/*
 	 * set path of the cookie file
 	 */
-	public function setCookiesFile($cookiesfile) {
+	function setCookiesFile($cookiesfile) {
 		$this->cookiesfile = (string)$cookiesfile;
 	}
 	
 	/*
 	 * set proxy ip/port/auth
 	 */
-	public function setProxy($server, $port, $username = '', $password = '') {
+	function setProxy($server, $port, $username = '', $password = '') {
 		$this->proxy = $server . ':' . $port;
 		if(($username != '') or ($password != '')) {
 			$this->proxyauth = $username . ':' . $password;
@@ -188,21 +188,21 @@ class CurlAxel {
 	/*
 	 * set connection auth
 	 */
-	public function setAuth($username, $password) {
+	function setAuth($username, $password) {
 		$this->auth = $username . ':' . $password;
 	}
 	
 	/*
 	 * set maximum speed limit
 	 */
-	public function setMaxSpeed($speed) {
+	function setMaxSpeed($speed) {
 		$this->maxspeed = (integer)$speed;
 	}
 	
 	/*
 	 * set minimum speed limit
 	 */
-	public function setMinSpeed($speed, $time) {
+	function setMinSpeed($speed, $time) {
 		$this->minspeed = (integer)$speed;
 		$this->minspeedtime = (integer)$time;
 	}
@@ -210,7 +210,7 @@ class CurlAxel {
 	/*
 	 * user personalized curl options
 	 */
-	public function setCurlOpts($opts) {
+	function setCurlOpts($opts) {
 		$this->optarray = $opts;
 	}
 	
@@ -224,7 +224,7 @@ class CurlAxel {
 	/*
 	 * set file merge memory buffersize
 	 */
-	public function setBufferSize($buffersie){
+	function setBufferSize($buffersie){
 		$this->buffersize = (int)$buffersie;
 	}
 	
@@ -233,14 +233,14 @@ class CurlAxel {
 	 * (integer) filesize on success
 	 * (bool) false on fail
 	 */
-	public function getFileSize($url) {
+	function getFileSize($url) {
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_NOBODY, true);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
-		$data = curl_exec($ch);
+		curl_exec($ch);
 		$filesize = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 		curl_close($ch);
 		if ($filesize)
@@ -253,7 +253,7 @@ class CurlAxel {
 	 * (bool) true if curl_multi is applicable
 	 * (bool) false on fail
 	 */
-	public function isMT($url) {
+	function isMT($url) {
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_NOBODY, false); // Range in HEAD request is ignored in many servers
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
@@ -275,7 +275,7 @@ class CurlAxel {
 	 * (bool) true if url is accepted
 	 * (bool) false on fail
 	 */
-	public function setUrl($url) {
+	function setUrl($url) {
 		/* regex pattern for http(s)/ftp links only */
 		$pattern = "/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/i";
 		
@@ -291,7 +291,7 @@ class CurlAxel {
 	 * (bool) true on success
 	 * (bool) false if failed
 	 */
-	public function setFilename($filename) {
+	function setFilename($filename) {
 		if (is_string($filename)) {
 			/* remove forbidden characters from filename */
 			$forbidden = '<>:"/\\|?*\'@#+~{}[]^';
@@ -322,7 +322,7 @@ class CurlAxel {
 	/*
 	 * download file using multithreaded connections
 	 */
-	public function fast_download() {
+	function fast_download() {
 		/* init CurlAxel folders */
 		$this->init();	
 
@@ -348,7 +348,8 @@ class CurlAxel {
 			/* init log for current curl handle  */
 			if($this->log) {
 				curl_setopt($ch[$i], CURLOPT_VERBOSE, true);
-				curl_setopt($ch[$i], CURLOPT_STDERR, $log);			}
+				curl_setopt($ch[$i], CURLOPT_STDERR, $log);
+                        }
 			
 			/* set the progress CallBack function
 			 * TODO: add other progress outputs (xml, db and text)
@@ -363,18 +364,20 @@ class CurlAxel {
 				/* create a temporary progress function for current curl
 				 * handle and register it
 				 */
-				$progress = create_function('$download_size, $downloaded, $upload_size, $uploaded','static $sprog = 0;
-				@$prog = ceil($downloaded*100/$download_size);
-				if(!isset($time)) static $time = 0;
-				if (($prog > $sprog) and ((time() >= $time+1) or ($time == 0) or ($downloaded ==  $download_size))){
-				   $sprog = $prog;
-				   echo \'<script>$("#pb'. $i .'").progressBar(\'. $sprog. \');</script>\';
-				   $time = time();
-				}');
-				curl_setopt($ch[$i], CURLOPT_PROGRESSFUNCTION, $progress);
+				$progress = function($download_size, $downloaded, $upload_size, $uploaded) {
+                                    static $sprog = 0;
+                                    @$prog = ceil($downloaded*100/$download_size);
+                                    if(!isset($time)) static $time = 0;
+                                    if (($prog > $sprog) and ((time() >= $time+1) or ($time == 0) or ($downloaded ==  $download_size))){
+                                       $sprog = $prog;
+                                       echo '<script>$("#pb'. $i .'").progressBar(\'. $sprog. \');</script>';
+                                       $time = time();
+                                    }
+                                };
+                                curl_setopt($ch[$i], CURLOPT_PROGRESSFUNCTION, $progress);
 				curl_setopt($ch[$i], CURLOPT_BUFFERSIZE, 10*1024*1024);
-			}
-			
+                        }
+           
 			/* set the cookies */
 			/* look for cookies string first */
 			if ($this->cookies) {
@@ -484,7 +487,7 @@ class CurlAxel {
 	/*
 	 * download file using a single connection
 	 */
-	public function slow_download() {
+	function slow_download() {
 		/* init CurlAxel folders */
 		$this->init();	
 
@@ -525,14 +528,16 @@ class CurlAxel {
 			/* create a temporary progress function for current curl
 			 * handle and register it
 			 */
-			$progress = create_function('$download_size, $downloaded, $upload_size, $uploaded','static $sprog = 0;
-			@$prog = ceil($downloaded*100/$download_size);
-			if(!isset($time)) static $time = 0;
-			if (($prog > $sprog) and ((time() >= $time+1) or ($time == 0) or ($downloaded ==  $download_size))){
-				$sprog = $prog;
-				echo \'<script>$("#pb1").progressBar(\'. $sprog. \');</script>\';
-				$time = time();
-			}');
+			$progress = function($download_size, $downloaded, $upload_size, $uploaded) {
+                                    static $sprog = 0;
+                                    @$prog = ceil($downloaded*100/$download_size);
+                                    if(!isset($time)) static $time = 0;
+                                    if (($prog > $sprog) and ((time() >= $time+1) or ($time == 0) or ($downloaded ==  $download_size))){
+                                       $sprog = $prog;
+                                       echo '<script>$("#pb'. $i .'").progressBar(\'. $sprog. \');</script>';
+                                       $time = time();
+                                    }
+                                };
 			curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, $progress);
 			curl_setopt($ch, CURLOPT_BUFFERSIZE, 10*1024*1024);
 		}
@@ -592,7 +597,7 @@ class CurlAxel {
 	/*
 	 * determines which type of download to use
 	 */
-	public function download() {
+	function download() {
 		/* check if curl multi is applicable and determine filesize */
 		$isMT = $this->isMT($this->url);
 		$size = $this->getFileSize($this->url);
