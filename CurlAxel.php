@@ -364,7 +364,7 @@ class CurlAxel {
 				/* create a temporary progress function for current curl
 				 * handle and register it
 				 */
-				$progress = function($download_size, $downloaded, $upload_size, $uploaded) {
+				$progress = function($download_size, $downloaded, $upload_size, $uploaded) use ($i) {
                                     static $sprog = 0;
                                     @$prog = ceil($downloaded*100/$download_size);
                                     if(!isset($time)) static $time = 0;
