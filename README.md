@@ -15,7 +15,7 @@ You only need php (with curl and mbstring extensions) and composer.
 Use composer to install it
 
 ```
-composer require jaceromri/CurlAxel
+composer require jaceromri/curl-axel
 ```
 
 And use it
@@ -52,17 +52,17 @@ The primary goal for now is to get a good initial version of this lib
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/JacerOmri/CurlAxel/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/JacerOmri/curl-axel/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/JacerOmri/CurlAxel/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/JacerOmri/curl-axel/tags).
 
 ## Authors
 
 * **Jacer Omri** - *Initial work* - [jaceromri](https://github.com/jaceromri)
 
-See also the list of [contributors](https://github.com/jaceromri/CurlAxel/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/jaceromri/curl-axel/contributors) who participated in this project.
 
 ## License
 

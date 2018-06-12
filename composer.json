@@ -1,5 +1,5 @@
 {
-    "name": "jaceromri/CurlAxel",
+    "name": "jaceromri/curl-axel",
     "description": "PHP based download accelerator",
     "license": "MIT",
     "keywords": ["php", "curl", "curl-multi", "download", "accelerator", "composer", "http"],
