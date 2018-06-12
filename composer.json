@@ -2,7 +2,7 @@
     "name": "jaceromri/CurlAxel",
     "description": "PHP based download accelerator",
     "license": "MIT",
-    "keywords": ["boilerplate", "http"],
+    "keywords": ["php", "curl", "curl-multi", "download", "accelerator", "composer", "http"],
     "authors": [
         {
             "name": "Jacer Omri",
