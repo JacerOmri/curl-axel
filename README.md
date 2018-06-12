@@ -1,3 +1,8 @@
+![Packagist](https://img.shields.io/packagist/v/jaceromri/curl-axel.svg?style=for-the-badge)
+![PHP from Packagist](https://img.shields.io/packagist/php-v/jaceromri/curl-axel.svg?style=for-the-badge)
+![license](https://img.shields.io/github/license/jaceromri/curl-axel.svg?style=for-the-badge)
+
+
 # CurlAxel
 
 > 🐘 PHP based download accelerator ⏬
