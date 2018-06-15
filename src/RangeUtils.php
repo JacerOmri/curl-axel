@@ -2,11 +2,29 @@
 
 namespace CurlAxel;
 
+
 class RangeUtils
 {
+    /**
+     * @param $size
+     * @param $sliceCount
+     * @return array
+     */
+    public static function getDashedSlices($size, $sliceCount)
+    {
+        return array_map(function ($e) {
+            return implode($e, '-');
+        }, self::getSlices($size, $sliceCount));
+    }
+
+    /**
+     * @param $size
+     * @param $sliceCount
+     * @return array
+     */
     public static function getSlices($size, $sliceCount)
     {
-        $step = $size/$sliceCount;
+        $step = $size / $sliceCount;
         $ranges = range(0, $size, $step);
         $ranges[count($ranges) - 1] = $size;
         $slices = [];
@@ -19,12 +37,5 @@ class RangeUtils
         }
 
         return $slices;
-    }
-    
-    public static function getDashedSlices($size, $sliceCount)
-    {
-        return array_map(function ($e) {
-            return implode($e, '-');
-        }, self::getSlices($size, $sliceCount));
     }
 }
