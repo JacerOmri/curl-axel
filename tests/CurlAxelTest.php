@@ -1,40 +1,57 @@
 <?php
 
-declare(strict_types=1);
-
-require_once __DIR__ . '/../vendor/autoload.php';
-
-use PHPUnit\Framework\TestCase;
 use CurlAxel\Exceptions\CurlException;
+use CurlAxel\Handlers\Chunk\Memory;
+use CurlAxel\Handlers\Chunk\TempFile;
+use PHPUnit\Framework\TestCase;
 
 final class CurlAxelTest extends TestCase
 {
     const ONE_MEGA_FILE_URL = 'http://ovh.net/files/1Mio.dat';
     const ONE_MEGA_FILE_MD5 = '6cb91af4ed4c60c11613b75cd1fc6116';
 
-    public function testDownload(): void
+    public function testDownload()
     {
         $tmp = 'download';
-        $c = new \CurlAxel\CurlAxel(self::ONE_MEGA_FILE_URL, $tmp);
-        $c->download();
+        $ca = new \CurlAxel\CurlAxel();
+        $ca->setUrl(self::ONE_MEGA_FILE_URL)
+            ->setOutput($tmp)
+            ->setChunkHandler(new TempFile());
+
+        $ca->download();
 
         $this->assertEquals(self::ONE_MEGA_FILE_MD5, md5_file($tmp));
     }
 
-    public function testGetFileSize(): void
+    public function testDownloadInMemory()
     {
-        $ca = new \CurlAxel\CurlAxel(self::ONE_MEGA_FILE_URL);
+        $tmp = 'download';
+        $ca = new \CurlAxel\CurlAxel();
+        $ca->setUrl(self::ONE_MEGA_FILE_URL)
+            ->setOutput($tmp)
+            ->setChunkHandler(new Memory());
+
+        $ca->download();
+
+        $this->assertEquals(self::ONE_MEGA_FILE_MD5, md5_file($tmp));
+    }
+
+    public function testGetFileSize()
+    {
+        $ca = new \CurlAxel\CurlAxel();
+        $ca->setUrl(self::ONE_MEGA_FILE_URL);
         $size = $this->invokeMethod($ca, 'getFileSize', []);
 
         $this->assertEquals(1048576, $size);
     }
 
-    public function testGetFileSizeException(): void
+    public function testGetFileSizeException()
     {
         $this->expectException(CurlException::class);
 
-        $ca = new \CurlAxel\CurlAxel(self::ONE_MEGA_FILE_URL . 'x');
-        $size = $this->invokeMethod($ca, 'getFileSize', []);
+        $ca = new \CurlAxel\CurlAxel();
+        $ca->setUrl(self::ONE_MEGA_FILE_URL . 'x');
+        $this->invokeMethod($ca, 'getFileSize', []);
     }
 
     /**

@@ -21,9 +21,4 @@ class CurlException extends \Exception
     {
         return 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
     }
-
-    public function getProperty()
-    {
-        return $this->property;
-    }
 }

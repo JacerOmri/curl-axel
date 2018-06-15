@@ -15,7 +15,7 @@ This library is available as a composer package. Will add a standalone version w
 
 You only need php (with curl and mbstring extensions) and composer.
 
-### Installing
+### Installing and using
 
 Use composer to install it
 
@@ -26,7 +26,21 @@ composer require jaceromri/curl-axel
 And use it
 
 ```php
-$c = new \CurlAxel\CurlAxel('http://ovh.net/files/1Mio.dat', 'download.dat');
+$c = CurlAxel\Factory::create()
+    ->setUrl('http://ovh.net/files/1Mio.dat')
+    ->setOutput'download.dat');
+
+$c->download();
+```
+
+You can set an other way to handle chunk streams. For instance, there is an in memory chunk handler that would work well
+if you have issues accessing temp folder in your system
+
+```php
+$c = CurlAxel\Factory::create('Memory')
+    ->setUrl('http://ovh.net/files/1Mio.dat')
+    ->setOutput'download.dat');
+
 $c->download();
 ```
 
