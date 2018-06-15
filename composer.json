@@ -27,7 +27,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1-dev"
+            "develop": "1.0-dev",
+            "master": "0.9"
         }
     },
     "prefer-stable": true,
